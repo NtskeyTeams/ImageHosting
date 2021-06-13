@@ -1,0 +1,28 @@
+# 节点采集于网络，请慎重使用
+mixed-port: 7890
+allow-lan: true
+bind-address: '*'
+mode: rule
+log-level: info
+external-controller: '127.0.0.1:9090'
+dns:
+    enable: true
+    ipv6: false
+    default-nameserver: [223.5.5.5, 119.29.29.29]
+    enhanced-mode: redir-host
+    fake-ip-range: 198.18.0.1/16
+    use-hosts: true
+    nameserver: ['https://doh.pub/dns-query']
+    fallback: ['tls://1.0.0.1:853', 'https://cloudflare-dns.com/dns-query', 'https://dns.google/dns-query']
+    fallback-filter: { geoip: true, ipcidr: [240.0.0.0/4, 0.0.0.0/32] }
+proxies:
+    - { name: '香港 01', type: vmess, server: 203.218.253.28, port: 2214, uuid: da03cb5f-9a64-4de3-b19a-5e048be3995f, alterId: 1, cipher: auto, udp: true, network: ws }
+    - { name: '香港 02', type: vmess, server: gy.dxmax.top, port: 124, uuid: da03cb5f-9a64-4de3-b19a-5e048be3995f, alterId: 1, cipher: auto, udp: true, network: ws }
+    - { name: '香港 03', type: vmess, server: 13.75.65.126, port: 112, uuid: da03cb5f-9a64-4de3-b19a-5e048be3995f, alterId: 1, cipher: auto, udp: true, network: ws }
+    - { name: '香港 04', type: vmess, server: 13.75.65.126, port: 113, uuid: da03cb5f-9a64-4de3-b19a-5e048be3995f, alterId: 1, cipher: auto, udp: true, network: ws }
+    - { name: '香港 05', type: vmess, server: 13.75.65.126, port: 114, uuid: da03cb5f-9a64-4de3-b19a-5e048be3995f, alterId: 1, cipher: auto, udp: true, network: ws }
+    - { name: '香港 06', type: vmess, server: 143.92.47.155, port: 2214, uuid: da03cb5f-9a64-4de3-b19a-5e048be3995f, alterId: 1, cipher: auto, udp: true, network: ws }
+    - { name: '香港 07', type: vmess, server: 13.75.65.126, port: 101, uuid: da03cb5f-9a64-4de3-b19a-5e048be3995f, alterId: 1, cipher: auto, udp: true, network: ws }
+proxy-groups:
+    - { name: 节点来源于网络, type: select, proxies: [♻️ 自动选择,香港 01,香港 02,香港 03,香港 04,香港 05,香港 06,香港 07,DIRECT] }
+    - {name: ♻️ 自动选择, type: url-test, url: http://www.gstatic.com/generate_204, interval: 300, tolerance: 50, proxies: [香港 01,香港 02,香港 03,香港 04,香港 05,香港 06,香港 07] }
